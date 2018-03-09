@@ -69,9 +69,10 @@ export default {
       setCurrentIndex: 'setCurrentIndex'
     }),
     goBack () {
-      this.$router.push({
-        path: `/`
-      })
+      // this.$router.push({
+      //   path: `/`
+      // })
+      this.$router.back()
     },
     sortAudioList (list) {
       // 返回的数据是无序的,需要进行排序处理 返回的数据有一个上传时间属性,可根据这个属性进行排序
@@ -247,9 +248,11 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
+    max-height: 94px;
     background-color: #2c2c2c;
     color: #eee;
     line-height: 20px;
+    overflow: hidden;
   }
   #show-page-list {
     #show-list-title {

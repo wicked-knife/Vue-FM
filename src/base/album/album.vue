@@ -1,26 +1,20 @@
 <template>
   <div class='album-item' @click.stop='selectShow'>
     <div class='album-cover'>
-      <img :src="album.album.cover.urls[0].url" class='album-img'>
+      <img :src="album.cover" class='album-img'>
     </div>
     <div class='album-infos'>
-      <p class='album-name'>{{album.album.name}}</p>
-      <p class='album-update'>{{album.album.displayText}}</p>
+      <p class='album-name'>{{album.name}}</p>
+      <p class='album-update'>{{album.desc}}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { createShow } from '../../common/js/ClassShow'
 import {mapMutations} from 'vuex'
 export default {
   props: {
     album: {}
-  },
-  data () {
-    return {
-      albumInfo: {}
-    }
   },
   mounted () {
   },
@@ -29,8 +23,8 @@ export default {
       setShow: 'setShow'
     }),
     selectShow () {
-      this.setShow(createShow(this.album.album))
-      this.$emit('selectShow')
+      this.setShow(this.album)
+      this.$emit('selectShow', this.album)
     }
   }
 }
@@ -68,7 +62,7 @@ export default {
       color: #fff;
     }
     .album-update {
-      width: 100%;
+      width: 280px;
       color: #888;
       @include no-wrap();
     }

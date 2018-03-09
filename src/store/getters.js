@@ -19,3 +19,5 @@ export const playerShow = state => state.playerShow
 export const currentIndex = state => state.currentIndex
 
 export const favoriteList = state => state.favoriteList
+
+export const listenedList = state => state.listenedList

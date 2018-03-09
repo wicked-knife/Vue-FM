@@ -40,7 +40,7 @@ export const toggleFavorite = {
         //  不是被收藏的
         this.isFavorite = true
         let list = this.favoriteList.concat()
-        list.push(this.show)
+        list.unshift(this.show)
         this.setFavoriteList(list)
       }
     },

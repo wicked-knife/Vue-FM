@@ -6,7 +6,6 @@ class Show {
   constructor (showObj) {
     this.id = showObj.albumID
     this.categoryName = showObj.categoryName
-    this.categoryId = showObj.vecCate[0].categoryId
     this.cover = showObj.cover.urls[0].url
     this.desc = showObj.desc
     this.displayText = showObj.displayText

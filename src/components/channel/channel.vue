@@ -12,6 +12,7 @@
     </div>
     <toast text='已无更多' type='cancel' v-model="failToastShow" position='bottom' ></toast>
     <toast text='加载完成' type='success' v-model="successToastShow" position='bottom' ></toast>
+    <Loading :show='loadingShow'></Loading>
     <router-view v-if='show.id'/>
   </div>
 </template>
@@ -20,7 +21,8 @@
 import album from '@/base/album/album'
 import panel from '@/base/panel/panel'
 import scroll from '@/base/scroll/scroll'
-import { Toast } from 'vux'
+import { Toast, Loading } from 'vux'
+import { createShow } from '@/common/js/ClassShow'
 import { mapGetters, mapMutations } from 'vuex'
 import { getChannelTypeData } from '@/common/api/api'
 import { fixScrollMixin } from '@/common/js/mixin'
@@ -33,26 +35,36 @@ export default {
       currentPage: 1,
       hasMore: true,
       failToastShow: false,
-      successToastShow: false
+      successToastShow: false,
+      loadingShow: false
     }
   },
   computed: {
-    ...mapGetters(['channelType', 'show'])
+    ...mapGetters(['channelType', 'show', 'listenedList'])
   },
   methods: {
     ...mapMutations({
-      setPlayerShow: 'setPlayerShow'
+      setPlayerShow: 'setPlayerShow',
+      setListenedList: 'setListenedList'
     }),
     _getChannelTypeData () {
+      this.loadingShow = true
       if (this.hasMore) {
         getChannelTypeData(this.channelType.id, this.currentPage).then((res) => {
           res.data.data.commonInfo.hasMore ? this.hasMore = true : this.hasMore = false
-          console.log(res.data)
+          let albumList = []
           if (this.currentPage > 1) {
-            this.albumList = this.albumList.concat(res.data.data.albumInfoList)
+            res.data.data.albumInfoList.forEach((album, index) => {
+              albumList.push(createShow(album.album))
+            })
+            this.albumList = this.albumList.concat(albumList)
           } else {
-            this.albumList = res.data.data.albumInfoList
+            res.data.data.albumInfoList.forEach((album, index) => {
+              albumList.push(createShow(album.album))
+            })
+            this.albumList = albumList
           }
+          this.loadingShow = false
           this.successToastShow = true
           // 获取到数据并渲染之后再修正top值
           this._fixChannelContentTop()
@@ -78,11 +90,18 @@ export default {
     onChannelContentChange (height) {
       this._fixChannelContentTop(height)
     },
-    onSelectShow () {
+    onSelectShow (album) {
       this.$router.push({
-        path: `/channel/${this.show.id}`
+        path: `/channel/${album.id}`
       })
       this.setPlayerShow(true)
+      //  将点击的专辑添加进  听过的列表  中,添加之前先判断列表中是否已经存在该专辑
+      let isRepeat = this.listenedList.find((item, index) => {
+        return item.id === album.id
+      })
+      if (!isRepeat) {
+        this.setListenedList(album)
+      }
     },
     searchMore () {
       this.toastShow = true
@@ -106,7 +125,8 @@ export default {
     album,
     panel,
     scroll,
-    Toast
+    Toast,
+    Loading
   }
 }
 </script>

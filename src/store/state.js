@@ -1,3 +1,5 @@
+import {takeOutFavoriteList, takeOutListenedList} from '@/common/js/cache'
+
 const state = {
   channel: {},
   channelType: {},
@@ -6,7 +8,8 @@ const state = {
   playingState: false,
   currentIndex: 0,
   playerShow: false,
-  favoriteList: []
+  favoriteList: takeOutFavoriteList(),
+  listenedList: takeOutListenedList()
 }
 
 export default state

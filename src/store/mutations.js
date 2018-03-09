@@ -1,3 +1,5 @@
+import {storeListenedList, storeFavoriteList} from '@/common/js/cache'
+
 const mutations = {
   setChannel (state, channel) {
     state.channel = channel
@@ -41,6 +43,14 @@ const mutations = {
 
   setFavoriteList (state, list) {
     state.favoriteList = list
+    storeFavoriteList(state.favoriteList)
+  },
+
+  setListenedList (state, album) {
+    let list = state.listenedList.concat()
+    list.unshift(album)
+    state.listenedList = list
+    storeListenedList(state.listenedList)
   }
 }
 export default mutations
