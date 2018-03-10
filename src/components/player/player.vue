@@ -167,7 +167,7 @@ export default {
     z-index: 2;
     #player-header {
       width: 100%;
-      padding-top: 100%;
+      padding-top: 80%;
       position: relative;
       .icon-unfold {
         position: absolute;
@@ -210,6 +210,7 @@ export default {
         #player-name {
           font-size: 22px;
           color: #fff;
+          width: 350px;
           @include no-wrap();
         }
         #player-owner {
@@ -283,7 +284,7 @@ export default {
         color: #eee;
         font-size: 14px;
         padding-top: 5px;
-        width: 270px;
+        width: 260px;
         @include no-wrap();
       }
       #mini-player-owner {

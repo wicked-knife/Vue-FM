@@ -1,7 +1,7 @@
 import store from 'store'
 
-const FAVORITE_KEY = '__favorite_list__'
-const LISTENED_KEY = '__listened_list__'
+const FAVORITE_KEY = '__favorite_FM_list__'
+const LISTENED_KEY = '__listened_FM_list__'
 
 const MAX_LENGTH = 100
 

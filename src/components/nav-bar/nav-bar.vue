@@ -3,13 +3,15 @@
     <div id='nav-item-warpper' ref='nav-item-warpper'>
       <span v-for='(nav, index) in navList' :key='index' class='nav-item' ref='nav-item' @click='navigateTo(nav, index)' :class="{'active': index === currentNav}">{{nav.channel}}</span>
     </div>
+    <Toast text='左右滑动导航查看更多' position='top' type='text' :value='true' :time='3000'></Toast>
   </div>
 </template>
 
 <script>
 import dataBase from './data-base'
 import BetterScroll from 'better-scroll'
-import {mapMutations} from 'vuex'
+import { mapMutations } from 'vuex'
+import { Toast } from 'vux'
 
 export default {
   data () {
@@ -27,10 +29,13 @@ export default {
   },
   methods: {
     _handleScroll () {
-      this.nav = new BetterScroll(this.$refs['nav-bar'], {scrollX: true, click: true})
+      this.nav = new BetterScroll(this.$refs['nav-bar'], {
+        scrollX: true,
+        click: true
+      })
       var windowWidth = window.innerWidth
       var width = windowWidth / 5
-      this.$refs['nav-item'].forEach((item) => {
+      this.$refs['nav-item'].forEach(item => {
         item.style.width = width + 'px'
       })
       var maxWidth = width * this.$refs['nav-item'].length
@@ -45,20 +50,23 @@ export default {
       setChannel: 'setChannel',
       setChannelType: 'setChannelType'
     })
+  },
+  components: {
+    Toast
   }
 }
 </script>
 
 <style scoped lang='scss'>
-@import '../../common/style/index.scss';
-#app-nav-bar{
+@import "../../common/style/index.scss";
+#app-nav-bar {
   height: 30px;
   width: 100%;
   overflow: hidden;
-  #nav-item-warpper{
+  #nav-item-warpper {
     height: 100%;
     white-space: nowrap;
-    .nav-item{
+    .nav-item {
       display: inline-block;
       line-height: 30px;
       text-align: center;
@@ -67,8 +75,8 @@ export default {
     }
   }
 }
-.active{
-  color:$theme-color !important;
+.active {
+  color: $theme-color !important;
   @include border-bottom-1px($theme-color);
 }
 </style>

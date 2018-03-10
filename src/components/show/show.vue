@@ -23,7 +23,7 @@
         <h3 id='show-list-title'>节目列表</h3>
         <div id='show-scroll-warpper' ref='scroll-warpper'>
           <scroll :data='audioList' v-if='audioList.length' :pullup='true' @scrollToEnd='searchMore'>
-            <show-list :audioList="audioList" @selectAudio='selectAudio' @quickPlay='quickPlay' ref='showList'></show-list>
+            <show-list :audioList="show.audioList" @selectAudio='selectAudio' @quickPlay='quickPlay' ref='showList'></show-list>
           </scroll>
         </div>
       </div>
@@ -53,7 +53,8 @@ export default {
       hasMore: true,
       failToastShow: false,
       successToastShow: false,
-      loadingShow: true
+      loadingShow: true,
+      top: 0
     }
   },
   computed: {
@@ -69,9 +70,6 @@ export default {
       setCurrentIndex: 'setCurrentIndex'
     }),
     goBack () {
-      // this.$router.push({
-      //   path: `/`
-      // })
       this.$router.back()
     },
     sortAudioList (list) {
@@ -196,7 +194,7 @@ export default {
   }
   #show-page-header {
     width: 100%;
-    padding-top: 45%;
+    padding-top: 40%;
     position: relative;
     overflow: hidden;
     #show-bg-blur {
@@ -214,7 +212,7 @@ export default {
       width: 100%;
       height: 70%;
       display: flex;
-      margin-top: 15%;
+      margin-top: 10%;
       #show-image-warpper {
         flex: 0 0 100px;
         width: 100px;
@@ -227,9 +225,10 @@ export default {
       #show-header-info {
         color: $theme-color;
         #show-name {
-          font-size: 22px;
+          font-size: 20px;
           color: #eee;
           line-height: 36px;
+          width: 220px;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
@@ -245,20 +244,20 @@ export default {
     }
   }
   #show-page-desc {
-    padding: 10px;
+    padding: 5px 10px 5px 10px;
     box-sizing: border-box;
     width: 100%;
-    max-height: 94px;
+    max-height: 70px;
     background-color: #2c2c2c;
     color: #eee;
-    line-height: 20px;
+    line-height: 16px;
     overflow: hidden;
   }
   #show-page-list {
     #show-list-title {
-      font-size: 20px;
+      font-size: 18px;
       text-align: center;
-      line-height: 40px;
+      line-height: 30px;
       color: #eee;
       font-weight: normal;
     }

@@ -51,6 +51,16 @@ const mutations = {
     list.unshift(album)
     state.listenedList = list
     storeListenedList(state.listenedList)
+  },
+
+  clearFavoriteList (state) {
+    state.favoriteList = []
+    storeFavoriteList(state.favoriteList)
+  },
+
+  clearListenedList (state) {
+    state.listenedList = []
+    storeListenedList(state.listenedList)
   }
 }
 export default mutations
