@@ -40,12 +40,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['channelType', 'show', 'listenedList'])
+    ...mapGetters(['channelType', 'show'])
   },
   methods: {
     ...mapMutations({
-      setPlayerShow: 'setPlayerShow',
-      setListenedList: 'setListenedList'
+      setPlayerShow: 'setPlayerShow'
     }),
     _getChannelTypeData () {
       this.loadingShow = true
@@ -95,13 +94,6 @@ export default {
         path: `/channel/${album.id}`
       })
       this.setPlayerShow(true)
-      //  将点击的专辑添加进  听过的列表  中,添加之前先判断列表中是否已经存在该专辑
-      let isRepeat = this.listenedList.find((item, index) => {
-        return item.id === album.id
-      })
-      if (!isRepeat) {
-        this.setListenedList(album)
-      }
     },
     searchMore () {
       this.toastShow = true

@@ -62,7 +62,8 @@ export default {
     ...mapMutations({
       setFullScreen: 'setFullScreen',
       setPlayingState: 'setPlayingState',
-      setCurrentIndex: 'setCurrentIndex'
+      setCurrentIndex: 'setCurrentIndex',
+      setListenedList: 'setListenedList'
     }),
     minimize () {
       this.setFullScreen(false)
@@ -129,7 +130,8 @@ export default {
       'playingState',
       'show',
       'currentAudio',
-      'currentIndex'
+      'currentIndex',
+      'listenedList'
     ])
   },
   watch: {
@@ -140,11 +142,29 @@ export default {
     },
     playingState (newval) {
       newval ? this.audio.play() : this.audio.pause()
+      // 当播放状态为true时, 看当前专辑是否存在于 '听过的列表中' , 如不存在则添加进去
+      if (newval) {
+        let isRepeat = this.listenedList.find((item, index) => {
+          return item.id === this.show.id
+        })
+        if (!isRepeat) {
+          this.setListenedList(this.show)
+        }
+      }
     },
     show (newval, oldval) {
       if (newval.id !== oldval.id) {
         //  改变节目时将当前index重置为0
         this.setCurrentIndex(0)
+      }
+      // 当专辑改变时并且当前播放状态为true时, 看当前专辑是否存在于 '听过的列表中' , 如不存在则添加进去
+      if (this.playingState) {
+        let isRepeat = this.listenedList.find((item, index) => {
+          return item.id === this.show.id
+        })
+        if (!isRepeat) {
+          this.setListenedList(this.show)
+        }
       }
     }
   },
@@ -311,8 +331,8 @@ export default {
     }
   }
 }
-.favorite{
-  color:rgb(234,32,0) !important;
+.favorite {
+  color: rgb(234, 32, 0) !important;
 }
 .normal-enter,
 .normal-leave-to {
