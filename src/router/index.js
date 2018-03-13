@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import channel from '@/components/channel/channel'
-import show from '@/components/show/show'
-import userCenter from '@/components/user-center/user-center'
+// import channel from '@/components/channel/channel'
+// import show from '@/components/show/show'
+// import userCenter from '@/components/user-center/user-center'
 
 Vue.use(Router)
 
@@ -13,14 +13,14 @@ export default new Router({
       redirect: '/channel'
     }, {
       path: '/channel',
-      component: channel,
+      component: resolve => require(['@/components/channel/channel'], resolve),
       children: [{
         path: ':id',
-        component: show
+        component: resolve => require(['@/components/show/show'], resolve)
       }]
     }, {
       path: '/center',
-      component: userCenter
+      component: resolve => require(['@/components/user-center/user-center'], resolve)
     }
   ]
 })
