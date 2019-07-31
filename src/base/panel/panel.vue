@@ -1,7 +1,7 @@
 <template>
   <div class='panel-warpper' ref='item'>
     <transition-group tag='ul' name='fade' class='panel-content'>
-      <li class='panel-item' v-for="(type, index) in channel.list" :key='index' @click='selectType(type, index)' :class="{'active': channelType.type === type.type}" v-if='!isFold || index <= 3'>{{type.type}}</li>
+      <li class='panel-item' v-for="(type, index) in channel.list" :key='index + type.type' @click='selectType(type, index)' :class="{'active': channelType.type === type.type}" v-if='!isFold || index <= 3'>{{type.type}}</li>
     </transition-group>
     <i class='iconfont icon-jipiaoxiaoxiala' @click='toggleFold' :class="{'rotate': isFold === true}"></i>
   </div>

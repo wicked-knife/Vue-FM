@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export function getChannelTypeData (typeId, page) {
   return axios({
     url: 'https://api.imjad.cn/qqfm/v1/',

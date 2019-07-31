@@ -27,8 +27,9 @@
           </scroll>
         </div>
       </div>
-          <toast text='已无更多' type='cancel' v-model="failToastShow" position='top' ></toast>
+    <toast text='已无更多' type='cancel' v-model="failToastShow" position='top' ></toast>
     <toast text='加载完成' type='success' v-model="successToastShow" position='top' ></toast>
+    <toast text='已下架' type='cancel' v-model="failedToastShow" position='top' ></toast>
     <loading :show='loadingShow'></loading>
     </div>
   </transition>
@@ -53,6 +54,8 @@ export default {
       hasMore: true,
       failToastShow: false,
       successToastShow: false,
+      failedToastShow: false,
+      ToastShow: false,
       loadingShow: true,
       top: 0
     }
@@ -117,6 +120,13 @@ export default {
     },
     _getPlaylistData () {
       getShowPlaylist(this.show.id).then(res => {
+        if (res.data.code && res.data.code === -10) {
+          this.failedToastShow = true
+          setTimeout(() => {
+            this.$router.go(-1)
+          }, 1000)
+          return
+        }
         this.setPlaylist(res.data)
         getPlaylistItem(this.show.id, this.start, this.show.playlist).then(
           res => {
