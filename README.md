@@ -7,11 +7,11 @@
 因无搜索相关接口,暂不提供搜索功能。
 
 ## 在线预览
-[项目演示地址](https://ghostratel.github.io/portfolio/FM/index.html#/channel)      
+[项目演示地址](https://wicked-knife.github.io/portfolio/FM/index.html#/channel)      
 
 移动端体验更佳     
 
-![二维码](https://ws1.sinaimg.cn/large/e3507465gy1fp7qwdtzehj207s07s0si.jpg)
+![二维码](http://ww1.sinaimg.cn/large/e3507465gy1g6m3l8zd7zj2074074t8l.jpg)
 
 ### 用户界面
 * 频道分类页
