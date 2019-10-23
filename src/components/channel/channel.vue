@@ -70,6 +70,7 @@ export default {
         })
       } else {
         this.failToastShow = true
+        this.loadingShow = false
       }
     },
     _fixChannelContentTop (height) {

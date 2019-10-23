@@ -1,9 +1,9 @@
 <template>
   <div id='FM-player' v-if="show && currentAudio">
-    <audio :src="currentAudio.audioUrl" ref='audio' @canplay='ready' @timeupdate='updateTime($event)'></audio>
+    <audio :src="currentAudio.audioUrl" ref='audio' @canplay='ready' @timeupdate='updateTime($event)' @error="handleAudioError"></audio>
     <transition name='normal'>
       <div id='normal-player' v-show="fullScreen">
-        <div id='player-header' @click.stop='test'>
+        <div id='player-header'>
           <i class='iconfont icon-unfold' @click.stop='minimize'></i>
           <i class='iconfont icon-likefill' @click.stop='toggleFavorite' :class='{"favorite": isFavorite}'></i>
           <img :src="show.cover" id='player-image'>
@@ -41,6 +41,7 @@
         </div>
       </div>
     </transition>
+    <toast text='资源不存在' type='cancel' v-model="errorVisiable" position='top'></toast>
   </div>
 </template>
 
@@ -48,6 +49,7 @@
 import processBar from '@/components/process-bar/process-bar'
 import { mapGetters, mapMutations } from 'vuex'
 import { toggleFavorite } from '@/common/js/mixin'
+import {Toast} from 'vux'
 export default {
   mixins: [toggleFavorite],
   data () {
@@ -55,7 +57,8 @@ export default {
       audio: {},
       canPlay: false,
       currentTime: 0,
-      percent: 0
+      percent: 0,
+      errorVisiable: false
     }
   },
   methods: {
@@ -72,8 +75,18 @@ export default {
       this.setFullScreen(true)
     },
     toggglePlaying () {
-      this.setPlayingState(!this.playingState)
-      this.playingState ? this.audio.play() : this.audio.pause()
+      let hasError = false
+      try {
+        this.playingState ? this.audio.play() : this.audio.pause()
+      } catch (err) {
+        hasError = true
+      } finally {
+        if (hasError) {
+          this.setPlayingState(false)
+        } else {
+          this.setPlayingState(!this.playingState)
+        }
+      }
     },
     prev () {
       if (this.canPlay) {
@@ -107,7 +120,6 @@ export default {
         this.audio = event.target
       }
     },
-    test () {},
     error () {
       this.canPlay = true
     },
@@ -122,6 +134,10 @@ export default {
       if (this.playingState) {
         this.audio.play()
       }
+    },
+    handleAudioError () {
+      this.setPlayingState(false)
+      this.errorVisiable = true
     }
   },
   computed: {
@@ -141,15 +157,19 @@ export default {
       }
     },
     playingState (newval) {
-      newval ? this.audio.play() : this.audio.pause()
       // 当播放状态为true时, 看当前专辑是否存在于 '听过的列表中' , 如不存在则添加进去
       if (newval) {
+        if (this.canPlay) {
+          this.audio.play()
+        }
         let isRepeat = this.listenedList.find((item, index) => {
           return item.id === this.show.id
         })
         if (!isRepeat) {
           this.setListenedList(this.show)
         }
+      } else {
+        this.audio.pause()
       }
     },
     show (newval, oldval) {
@@ -169,7 +189,8 @@ export default {
     }
   },
   components: {
-    processBar
+    processBar,
+    Toast
   }
 }
 </script>
